@@ -1,16 +1,20 @@
 import { ContactItem } from 'components/ContactItem/ContactItem';
 import { List, ListContainer } from './ContactList.styled';
 import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { getContacts, getFilter } from 'redux/selectors';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+
   return (
     <ListContainer>
       <List>
-        {contacts.map(({ id, name, number }) => (
-          <ContactItem key={id} name={name} number={number} />
-        ))}
+        {contacts
+          .filter(({ name }) => name.toLowerCase()?.includes(filter))
+          .map(({ id, name, number }) => (
+            <ContactItem key={id} name={name} number={number} />
+          ))}
       </List>
     </ListContainer>
   );
