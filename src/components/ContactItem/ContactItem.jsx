@@ -1,23 +1,18 @@
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { ListItem } from './ContactItem.styled';
 import { Button } from 'components/ContactForm/ContactForm.styled';
+import { removeContact } from 'redux/contactsSlice';
 
-export const ContactItem = ({ name, number, id, onDelete }) => {
+export const ContactItem = ({ name, number, id }) => {
+  const dispatch = useDispatch();
   return (
     <ListItem>
       <p>
         {name}: {number}
       </p>
-      <Button type="button" onClick={() => onDelete(id)}>
+      <Button type="button" onClick={() => dispatch(removeContact(id))}>
         Delete
       </Button>
     </ListItem>
   );
-};
-
-ContactItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
-  id: PropTypes.string,
-  onDelete: PropTypes.func.isRequired,
 };

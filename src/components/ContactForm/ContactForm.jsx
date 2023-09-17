@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { Form, Button, ErrorMessage } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/contactsSlice';
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -25,9 +27,19 @@ const initialValues = {
   number: '',
 };
 
-export const ContactForm = ({ onAddContact }) => {
-  const handleSubmit = (values, actions) => {
-    onAddContact(values);
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
+  const handlerSubmit = (values, actions) => {
+    const handlerAddContact = () => dispatch(addContact(values));
+
+    const overlap = contacts.map(({ name }) => name).includes(values.name);
+
+    overlap
+      ? alert(`${values.name} is already in contacts`)
+      : handlerAddContact();
+
     actions.resetForm();
   };
 
@@ -36,7 +48,7 @@ export const ContactForm = ({ onAddContact }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handlerSubmit}
       >
         <Form>
           <label>
@@ -55,13 +67,4 @@ export const ContactForm = ({ onAddContact }) => {
       </Formik>
     </>
   );
-};
-
-ContactForm.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired,
-  }),
-  validationSchema: PropTypes.object,
-  onSubmit: PropTypes.func,
 };

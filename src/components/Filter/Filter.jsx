@@ -1,17 +1,22 @@
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { filterUserByName } from 'redux/filterSlice';
 
-export const Filter = ({ filter, onChangeFilter }) => {
+export const Filter = () => {
+  const dispatch = useDispatch();
+
   return (
     <div>
       <label>
         Find contacts by name:
-        <input type="text" value={filter} onChange={onChangeFilter} />
+        <input
+          type="text"
+          id="filter"
+          name="filter"
+          onChange={evt =>
+            dispatch(filterUserByName(evt.target.value.toLowerCase()))
+          }
+        />
       </label>
     </div>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string,
-  onChangeFilter: PropTypes.func.isRequired,
 };
