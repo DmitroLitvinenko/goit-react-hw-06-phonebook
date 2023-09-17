@@ -13,3 +13,8 @@ export const List = styled.ul`
   flex-direction: column;
   gap: 15px;
 `;
+
+export const ContactContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
