@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { filterUserByName } from 'redux/filterSlice';
+import { filterContact } from 'redux/filterSlice';
 
 export const Filter = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ export const Filter = () => {
           id="filter"
           name="filter"
           onChange={evt =>
-            dispatch(filterUserByName(evt.target.value.toLowerCase()))
+            dispatch(filterContact(evt.target.value.toLowerCase()))
           }
         />
       </label>
